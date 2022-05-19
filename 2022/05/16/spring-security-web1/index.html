@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>spring-security——web权限方案：用户授权 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要：介绍了SpringSecurity基于角色和用户权限进行访问控制，在没有权限时设置拒绝访问页面，以及基于注解开发进行访问控制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-security——web权限方案：用户授权">
+<meta property="og:url" content="http://example.com/2022/05/16/spring-security-web1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要：介绍了SpringSecurity基于角色和用户权限进行访问控制，在没有权限时设置拒绝访问页面，以及基于注解开发进行访问控制。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516141039645.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516141146639.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516155654331.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165711266.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165821864.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165923762.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516170009681.png">
+<meta property="article:published_time" content="2022-05-16T05:21:28.000Z">
+<meta property="article:modified_time" content="2022-05-17T17:59:24.984Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="SpringSecurity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516141039645.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-spring-security-web1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/05/16/spring-security-web1/" class="article-date">
+  <time datetime="2022-05-16T05:21:28.000Z" itemprop="datePublished">2022-05-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SpringSecuriy/">SpringSecuriy</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spring-security——web权限方案：用户授权
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>摘要</strong>：介绍了SpringSecurity基于角色和用户权限进行访问控制，在没有权限时设置拒绝访问页面，以及基于注解开发进行访问控制。</p>
+<span id="more"></span>
+
+<h3 id="基于角色或权限进行访问控制"><a href="#基于角色或权限进行访问控制" class="headerlink" title="基于角色或权限进行访问控制"></a>基于角色或权限进行访问控制</h3><h4 id="hasAuthority方法"><a href="#hasAuthority方法" class="headerlink" title="hasAuthority方法"></a>hasAuthority方法</h4><p>如果当前主题具有指定的权限，则返回true，否则返回false</p>
+<ol>
+<li>在配置类设置当前访问地址有哪些权限</li>
+</ol>
+<ul>
+<li> .antMatchers(“/test/hello”) 匹配路径 “/test/hello”</li>
+<li> .hasAnyAuthority(“admin”) 需要admin权限才能访问</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.securitydemo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.crypto.password.PasswordEncoder;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-16 1:44 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfig3</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Qualifier(&quot;userDetailsService2&quot;)</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDetailsService userDetailsService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> PasswordEncoder <span class="title function_">passwordEncoder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        auth.userDetailsService(userDetailsService)</span><br><span class="line">                .passwordEncoder(passwordEncoder());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        http.formLogin() <span class="comment">// 自定义自己编写的登录页面</span></span><br><span class="line">                .loginPage(<span class="string">&quot;/login.html&quot;</span>)</span><br><span class="line">                .loginProcessingUrl(<span class="string">&quot;/user/login&quot;</span>) <span class="comment">// 登录访问路径</span></span><br><span class="line">                .defaultSuccessUrl(<span class="string">&quot;/test/index&quot;</span>).permitAll() <span class="comment">// 登录成功后跳转页面</span></span><br><span class="line">                .and().authorizeRequests()</span><br><span class="line">                .antMatchers(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/user/login&quot;</span>).permitAll() <span class="comment">// 设置哪些路径可以直接访问不需要认证</span></span><br><span class="line">                <span class="comment">// hasAuthority 方法</span></span><br><span class="line">                .antMatchers(<span class="string">&quot;/test/hello&quot;</span>).hasAuthority(<span class="string">&quot;admin&quot;</span>) <span class="comment">// 设置路径 &quot;/test/hello&quot; 需要admin权限才能访问</span></span><br><span class="line">                .anyRequest().authenticated()</span><br><span class="line">                .and().csrf().disable(); <span class="comment">// 关闭csrf防护</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在UserDetailsService的实现类中，设置返回的User对象具有的权限</li>
+</ol>
+<ul>
+<li>设置root用户具有<strong>root</strong>权限</li>
+<li>设置其他用户具有<strong>admin</strong>权限</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.securitydemo.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;</span><br><span class="line"><span class="keyword">import</span> com.shg.securitydemo.entity.User;</span><br><span class="line"><span class="keyword">import</span> com.shg.securitydemo.mapper.UserMapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.GrantedAuthority;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.authority.AuthorityUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-16 1:53 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service(value = &quot;userDetailsService2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyUserDetailsService2</span> <span class="keyword">implements</span> <span class="title class_">UserDetailsService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserDetails <span class="title function_">loadUserByUsername</span><span class="params">(String username)</span> <span class="keyword">throws</span> UsernameNotFoundException &#123;</span><br><span class="line">        <span class="comment">// 调用userMapper中的方法，根据用户名查询数据库</span></span><br><span class="line">        QueryWrapper&lt;User&gt; wrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">// 设置查询条件</span></span><br><span class="line">        wrapper.eq(<span class="string">&quot;name&quot;</span>, username);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.selectOne(wrapper);</span><br><span class="line">        <span class="comment">// 判断是否查到用户</span></span><br><span class="line">        <span class="keyword">if</span> (user == <span class="literal">null</span>) &#123; <span class="comment">// 数据库没有用户名，认证失败</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsernameNotFoundException</span>(<span class="string">&quot;用户名不存在！&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;GrantedAuthority&gt; authorities;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;root&quot;</span>.equals(user.getName())) &#123;</span><br><span class="line">            authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">org</span>.springframework.security.core.userdetails.User(user.getName(),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>().encode(user.getPassword()),</span><br><span class="line">                authorities);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>启动项目查看访问**”/test/hello”**结果</li>
+</ol>
+<p>该路径需要admin权限才能访问</p>
+<ul>
+<li>登录root用户返回错误页面</li>
+</ul>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516141039645.png" alt="登录root用户返回的错误页面" style="zoom:50%;" />
+
+<ul>
+<li>登录admin用户正常访问</li>
+</ul>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516141146639.png" alt="登录admin用户正常访问" style="zoom:50%;" />
+
+<h4 id="hasAnyAuthority方法"><a href="#hasAnyAuthority方法" class="headerlink" title="hasAnyAuthority方法"></a>hasAnyAuthority方法</h4><p>如果当前的主体有任何提供的权限，返回rue</p>
+<ol>
+<li>在【TestController】中添加一个方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;share&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">share</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello admin or root&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在配置文件中设置访问**/test/share**的权限</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hasAnyAuthority 方法</span></span><br><span class="line">.antMatchers(<span class="string">&quot;/test/share&quot;</span>).hasAnyAuthority(<span class="string">&quot;admin&quot;</span>, <span class="string">&quot;root&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="hasRole方法"><a href="#hasRole方法" class="headerlink" title="hasRole方法"></a>hasRole方法</h4><p>如果当前主题具有指定的角色，返回true</p>
+<ol>
+<li>在【TestController】中添加一个方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;role&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">role</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello hasRole&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改【MyUserDetailsService2】，给用户返回的权限中添加<strong>ROLE_user</strong></li>
+</ol>
+<ul>
+<li>需要加上**ROLE_**前缀</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;GrantedAuthority&gt; authorities;</span><br><span class="line"><span class="keyword">if</span> (<span class="string">&quot;root&quot;</span>.equals(user.getName())) &#123;</span><br><span class="line">    authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;root,ROLE_root&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;admin,ROLE_admin&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在配置类中设置访问**/test/role**需要的角色</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hasRole 方法</span></span><br><span class="line">.antMatchers(<span class="string">&quot;/test/role&quot;</span>).hasRole(<span class="string">&quot;admin&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="hasAnyRole方法"><a href="#hasAnyRole方法" class="headerlink" title="hasAnyRole方法"></a>hasAnyRole方法</h4><p>与hasAnyAuthority方法方法类似，不同在于在设置角色时需要加上**ROLE_**前缀</p>
+<h3 id="自定义没有权限返回的页面"><a href="#自定义没有权限返回的页面" class="headerlink" title="自定义没有权限返回的页面"></a>自定义没有权限返回的页面</h3><ol>
+<li>在/resources/static路径下添加一个403.html</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>403<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>没有访问权限！<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在配置类中配置返回的错误页面</li>
+</ol>
+<p>在**configure(HttpSecurity http)**方法中添加如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置没有访问权限是返回的页面路径</span></span><br><span class="line">http.exceptionHandling().accessDeniedPage(<span class="string">&quot;/403.html&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用root账号登录访问**/test/role**路径</li>
+</ol>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516155654331.png" alt="image-20220516155654331" style="zoom:67%;" />
+
+<h3 id="基于注解用户授权"><a href="#基于注解用户授权" class="headerlink" title="基于注解用户授权"></a>基于注解用户授权</h3><h4 id="Secured注解"><a href="#Secured注解" class="headerlink" title="@Secured注解"></a>@Secured注解</h4><p>判断是否具有角色，这里的匹配的自负需要添加铅坠<strong>ROLE_</strong></p>
+<ol>
+<li>在启动类加上**@EnableGlobalMethodSecurity**注解，并开启@Secured</li>
+</ol>
+<ul>
+<li>设置注解@EnableGlobalMethodSecurity中的securedEnabled = true</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@MapperScan(value = &#123;&quot;com.shg.securitydemo.mapper&quot;&#125;)</span></span><br><span class="line"><span class="meta">@EnableGlobalMethodSecurity(securedEnabled = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityDemoApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(SecurityDemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在【TestController】中添加一个方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/anno&quot;)</span></span><br><span class="line"><span class="meta">@Secured(value = &#123;&quot;ROLE_root&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">annotation</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello annotation&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PreAuthorize"><a href="#PreAuthorize" class="headerlink" title="@PreAuthorize"></a>@PreAuthorize</h4><p>进入方法前的权限验证</p>
+<ol>
+<li>在启动类加上**@EnableGlobalMethodSecurity**注解，并开启prePostEnabled</li>
+</ol>
+<ul>
+<li>设置注解@EnableGlobalMethodSecurity中的prePostEnabled = true</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityDemoApplication</span> &#123;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在【TestController】中添加一个方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/pre&quot;)</span></span><br><span class="line"><span class="meta">@PreAuthorize(value = &quot;hasAuthority(&#x27;admin&#x27;)&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">pre</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello preAuthorize&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PostAuthorize"><a href="#PostAuthorize" class="headerlink" title="@PostAuthorize"></a>@PostAuthorize</h4><p>访问方法后验证权限</p>
+<ol>
+<li>在启动类加上**@EnableGlobalMethodSecurity**注解，并开启prePostEnabled</li>
+</ol>
+<ul>
+<li>设置注解@EnableGlobalMethodSecurity中的prePostEnabled = true</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityDemoApplication</span> &#123;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在【TestController】中添加一个方法</li>
+</ol>
+<ul>
+<li>在方法中打印添加一句打印方法信息</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@PostAuthorize(value = &quot;hasAuthority(&#x27;admin&#x27;)&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">post</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;TestController.post&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello PostAuthorize&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>分别使用root和admin账户登录查看效果</li>
+</ol>
+<ul>
+<li>使用root账户登录，页面现实没有反问权限，但是控制台会输出内容，说明该方法被访问了</li>
+</ul>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165711266.png" alt="root账户登录返回页面" style="zoom:50%;" />
+
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165821864.png" alt="root用户登录控制台输出内容" style="zoom:50%;" />
+
+<ul>
+<li>使用admin账户登录，可以正常访问，且控制台也会输出内容</li>
+</ul>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516165923762.png" alt="admin账户登录" style="zoom:67%;" />
+
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/security/image-20220516170009681.png" alt="admin用户登录控制台输出内容" style="zoom:50%;" />
+
+<h4 id="PostFilter"><a href="#PostFilter" class="headerlink" title="@PostFilter"></a>@PostFilter</h4><p>对方法返回数据进行过滤</p>
+<h4 id="PreFilter"><a href="#PreFilter" class="headerlink" title="@PreFilter"></a>@PreFilter</h4><p>对传入方法数据进行过滤</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/16/spring-security-web1/" data-id="cl3dbnyee000ojg5m462teu3x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/16/spring-security-web2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          spring-security——web权限方案：用户退出
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/15/spring-security-web/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">spring-security——web权限方案：用户认证</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecurity/">SpringSecurity</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecuriy/">SpringSecuriy</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/spring/ioc/">ioc</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/">图</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">面向对象设计</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bfs/" rel="tag">bfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dfs/" rel="tag">dfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solid%E5%8E%9F%E5%88%99/" rel="tag">solid原则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" rel="tag">可视化建模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE/" rel="tag">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%81%8D%E5%8E%86/" rel="tag">遍历</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">项目搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/SpringSecurity/" style="font-size: 17.5px;">SpringSecurity</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/bfs/" style="font-size: 10px;">bfs</a> <a href="/tags/dfs/" style="font-size: 10px;">dfs</a> <a href="/tags/note/" style="font-size: 20px;">note</a> <a href="/tags/solid%E5%8E%9F%E5%88%99/" style="font-size: 10px;">solid原则</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" style="font-size: 10px;">可视化建模</a> <a href="/tags/%E5%9B%BE/" style="font-size: 15px;">图</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">工具类</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E9%81%8D%E5%8E%86/" style="font-size: 10px;">遍历</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">项目搭建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/05/18/graph-traversal/">graph——图的遍历：bfs与dfs</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/18/graph-generator/">graph——图生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/spring-security-web3/">spring-security——web权限方案：自动登录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/graph-basic/">graph——图数据结构基础</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/spring-security-web2/">spring-security——web权限方案：用户退出</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

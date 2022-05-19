@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>UML面向对象分析与设计——OOP基础 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要：介绍了面向对象设计思想中对象、类、属性、操作的概念，面向对象技术的相关原则。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML面向对象分析与设计——OOP基础">
+<meta property="og:url" content="http://example.com/2022/05/13/oop/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要：介绍了面向对象设计思想中对象、类、属性、操作的概念，面向对象技术的相关原则。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%8D%95%E4%B8%80%E7%BB%A7%E6%89%BF.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.jpg">
+<meta property="article:published_time" content="2022-05-13T06:03:51.000Z">
+<meta property="article:modified_time" content="2022-05-13T08:13:30.798Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="面向对象">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-oop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/05/13/oop/" class="article-date">
+  <time datetime="2022-05-13T06:03:51.000Z" itemprop="datePublished">2022-05-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">面向对象设计</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UML面向对象分析与设计——OOP基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>摘要</strong>：介绍了面向对象设计思想中对象、类、属性、操作的概念，面向对象技术的相关原则。</p>
+<span id="more"></span>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>根据北航《UML面向对象分析与设计》整理的学习笔记</p>
+<h3 id="对象和类"><a href="#对象和类" class="headerlink" title="对象和类"></a>对象和类</h3><h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><ol>
+<li>定义</li>
+</ol>
+<p>对象是一个实体，这个实体：</p>
+<ul>
+<li>具有明确定义的<strong>边界</strong>和<strong>标识</strong><ul>
+<li>边界意味着对象是一个封装体，通过封装来与其他对象分割</li>
+<li>标识则表明每一个对象都是唯一的</li>
+</ul>
+</li>
+<li>对象封装了状态和行为<ul>
+<li>对象的状态通过对象的属性（attribute）和关系（relationship）来表达</li>
+<li>对象的行为通过对象的操作（operation）、方法（method）和状态机（state machine）来表达</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>在UML中表示对象</li>
+</ol>
+<p>在UML中，对象用矩形框来表示，对象的名字写在矩形框内部，并加上下划线来表示</p>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg" alt="类的表示"  />
+
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><ol>
+<li>类的含义</li>
+</ol>
+<ul>
+<li>类是一系列对象的抽象描述，这些对象共享相同的属性、操作、关系和语义<ul>
+<li>一个具体的对象是该类的一个实例</li>
+</ul>
+</li>
+<li>类是一种抽象<ul>
+<li>将相似的实体抽象成相同的概念</li>
+<li>抽象过程强调相关特征而忽略其他的特征</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>UML中类的表示</li>
+</ol>
+<p>在UML中，采用矩形框来表示类，可以将矩形框划分为三个区域，分别表示类名、属性和操作</p>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA.jpg" alt="类的表示"  />
+
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><p>属性（attribute）是勒的特征或特性</p>
+<ul>
+<li>属性的值是某一特定对象的属性值</li>
+<li>在类中属性名必须是唯一的</li>
+<li>每一个类的实例都有为这个类定义的所有属性的值</li>
+</ul>
+<h4 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h4><ul>
+<li>操作（operation）访问或修改对象的属性值</li>
+<li>对象的行为是由为此对象定义的一系列操作决定的</li>
+<li>一个类可能同时存在多个实例，也可能在某一时刻没有实例</li>
+<li>一个类的所有实例都可以使用这个类中定义的操作</li>
+</ul>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1.jpg" alt="类与对象"  />
+
+<h3 id="面向对象技术相关原则"><a href="#面向对象技术相关原则" class="headerlink" title="面向对象技术相关原则"></a>面向对象技术相关原则</h3><p>面向对象技术基本原则</p>
+<ul>
+<li>抽象（Abstraction）</li>
+<li>封装（Encapsulation）</li>
+<li>分解（Decomposition）</li>
+<li>泛化（Generalization）</li>
+<li>多态（Polymorphism）</li>
+<li>分层（Hierarchy）</li>
+<li>复用（Reuse）</li>
+</ul>
+<h4 id="抽象——Abstraction"><a href="#抽象——Abstraction" class="headerlink" title="抽象——Abstraction"></a>抽象——Abstraction</h4><ul>
+<li>抽象是揭示事物区别于其他事物的本质特征的过程<ul>
+<li>是一个分析和理解问题的过程</li>
+<li>抽象的结果取决于使用者的目的，应该包括使用者所感兴趣的那些职责，而忽略掉其他不相关的部分</li>
+</ul>
+</li>
+<li>对象到类的过程就是抽象<ul>
+<li>即将所见到的具体实体抽象成概念，从而在计算机世界中进行描述和各种操作</li>
+</ul>
+</li>
+</ul>
+<h4 id="封装——Encapsulation"><a href="#封装——Encapsulation" class="headerlink" title="封装——Encapsulation"></a>封装——Encapsulation</h4><ul>
+<li>封装是对客户（使用者）隐藏具体实现细节<ul>
+<li>客户只依赖接口</li>
+<li>通过封装实现信息隐藏和数据抽象</li>
+</ul>
+</li>
+<li>为什么要封装<ul>
+<li>保证数据的一致性</li>
+</ul>
+</li>
+</ul>
+<h4 id="分解——Decomposition"><a href="#分解——Decomposition" class="headerlink" title="分解——Decomposition"></a>分解——Decomposition</h4><h4 id="泛化——Generalization"><a href="#泛化——Generalization" class="headerlink" title="泛化——Generalization"></a>泛化——Generalization</h4><ul>
+<li>是类之间的一种“是”（is a/is kind of）关系，通过该关系一个类（子类）可以共享另一个或多个类（父类）的结构和行为<ul>
+<li>采用继承（Inheritance）实现泛化关系</li>
+</ul>
+</li>
+<li>通过泛化关系，可以建立类之间的层次结构，根据继承层次中父类的个数不同，分为：<ul>
+<li>单一继承</li>
+<li>多重继承</li>
+</ul>
+</li>
+</ul>
+<h5 id="单一继承"><a href="#单一继承" class="headerlink" title="单一继承"></a>单一继承</h5><p>一个类继承另外一个类</p>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%8D%95%E4%B8%80%E7%BB%A7%E6%89%BF.jpg" alt="单一继承" />
+
+<h5 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h5><p>一个类继承另外多个类</p>
+<img src="https://raw.githubusercontent.com/shgang97/oss/main/posts/uml/%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF.jpg" alt="多重继承" />
+
+<h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><ul>
+<li>子类继承父类所有的内容：属性、操作、关系和语义<ul>
+<li>其访问权限仍受可见性的约束</li>
+</ul>
+</li>
+<li>子类还可以：<ul>
+<li>添加新的属性、操作、关系和语义</li>
+<li>重新定义继承的操作</li>
+</ul>
+</li>
+<li>设计继承层次<ul>
+<li>父类定义公共的属性、操作、关系和语义</li>
+<li>针对不同的情况定义不同的子类，以扩展父类的属性、操作、行文和语义</li>
+</ul>
+</li>
+</ul>
+<h4 id="多态——Polymorphism"><a href="#多态——Polymorphism" class="headerlink" title="多态——Polymorphism"></a>多态——Polymorphism</h4><ul>
+<li>多态是在统一外表（接口）下隐藏不同实现的能力<ul>
+<li>即一个接口可以有不同的实现行为</li>
+<li>是面向对象技术的本质特征</li>
+</ul>
+</li>
+</ul>
+<h4 id="分层——Hierarchy"><a href="#分层——Hierarchy" class="headerlink" title="分层——Hierarchy"></a>分层——Hierarchy</h4><h4 id="复用——Reuse"><a href="#复用——Reuse" class="headerlink" title="复用——Reuse"></a>复用——Reuse</h4><ul>
+<li>复用是借助于已有软件的各种有关知识建立新的软件的过程</li>
+</ul>
+<h5 id="应用复用原则"><a href="#应用复用原则" class="headerlink" title="应用复用原则"></a>应用复用原则</h5><ul>
+<li>系统开发各个阶段都可能涉及到复用<ul>
+<li>从最底层的<strong style="color:red;">代码复用</strong>，到<strong style="color:red;">设计复用</strong>、<strong style="color:red;">架构复用</strong>，再到<strong style="color:red;">需求复用</strong>，甚至于延伸到特定业务<strong style="color:red;">领域的复用</strong></li>
+<li>复用原则要求设计者不仅针对当前的业务需求开展设计，还需要考虑业务的通用性和可扩展性等问题，从而设计抽象层次高、复用粒度大的组件</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/13/oop/" data-id="cl3dbnyea0009jg5m5avdb5tj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/13/uml/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          UML面向对象分析与设计——可视化建模基础
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/13/solid/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">solid</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecurity/">SpringSecurity</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecuriy/">SpringSecuriy</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/spring/ioc/">ioc</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/">图</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">面向对象设计</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bfs/" rel="tag">bfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dfs/" rel="tag">dfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solid%E5%8E%9F%E5%88%99/" rel="tag">solid原则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" rel="tag">可视化建模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE/" rel="tag">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%81%8D%E5%8E%86/" rel="tag">遍历</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">项目搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/SpringSecurity/" style="font-size: 17.5px;">SpringSecurity</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/bfs/" style="font-size: 10px;">bfs</a> <a href="/tags/dfs/" style="font-size: 10px;">dfs</a> <a href="/tags/note/" style="font-size: 20px;">note</a> <a href="/tags/solid%E5%8E%9F%E5%88%99/" style="font-size: 10px;">solid原则</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" style="font-size: 10px;">可视化建模</a> <a href="/tags/%E5%9B%BE/" style="font-size: 15px;">图</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">工具类</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E9%81%8D%E5%8E%86/" style="font-size: 10px;">遍历</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">项目搭建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/05/18/graph-traversal/">graph——图的遍历：bfs与dfs</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/18/graph-generator/">graph——图生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/spring-security-web3/">spring-security——web权限方案：自动登录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/graph-basic/">graph——图数据结构基础</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/spring-security-web2/">spring-security——web权限方案：用户退出</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

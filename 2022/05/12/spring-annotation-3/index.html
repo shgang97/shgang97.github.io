@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>spring注解开发3——属性赋值与自动装配 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要：介绍了Spring容器给属性赋值和自动装配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring注解开发3——属性赋值与自动装配">
+<meta property="og:url" content="http://example.com/2022/05/12/spring-annotation-3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要：介绍了Spring容器给属性赋值和自动装配">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-11T16:41:20.000Z">
+<meta property="article:modified_time" content="2022-05-12T08:33:26.373Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-spring-annotation-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/05/12/spring-annotation-3/" class="article-date">
+  <time datetime="2022-05-11T16:41:20.000Z" itemprop="datePublished">2022-05-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/spring/">spring</a>►<a class="article-category-link" href="/categories/spring/ioc/">ioc</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spring注解开发3——属性赋值与自动装配
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>摘要</strong>：介绍了Spring容器给属性赋值和自动装配</p>
+<span id="more"></span>
+
+<h3 id="属性赋值"><a href="#属性赋值" class="headerlink" title="属性赋值"></a>属性赋值</h3><h4 id="使用-Value注解"><a href="#使用-Value注解" class="headerlink" title="使用@Value注解"></a>使用@Value注解</h4><p>通过在需要赋值的属性上加@Value注解，然后设置注解的参数value完成对属性的赋值。参数value的值是一个字符串，字符串的引号内可以写：</p>
+<ul>
+<li>基本数值：如基本的数据类型</li>
+<li>SpEL：#{}</li>
+<li>${}：取出配置文件【properties】中的值（运行环境变量里面的值）</li>
+</ul>
+<h4 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h4><ol>
+<li>创建配置文件</li>
+</ol>
+<p>在resources文件夹下创建一个properties文件，在文件夹中写要给属性赋的值</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">person.sex</span>=<span class="string">男</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建一个Person类</li>
+</ol>
+<p>该类有三个属性，分别是name: String、a ge: int、sex: String。分别采用上述三种方式进行赋值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.NoArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 12:46 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="meta">@Value(value = &quot;property&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="meta">@Value(value = &quot;#&#123;20-2&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="meta">@Value(value = &quot;$&#123;person.sex&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>新建一个配置类</li>
+</ol>
+<ul>
+<li><p>配置类中首先使用@Configuration注解将该类声明为配置类</p>
+</li>
+<li><p>使用@PropertySource注解导入配置文件</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.bean.Person;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.PropertySource;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 12:47 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@PropertySource(value = &#123;&quot;classpath:/application.properties&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Person <span class="title function_">person</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看输出结果</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.bean.Person;</span><br><span class="line"><span class="keyword">import</span> com.shg.config.MyConfig;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 12:49 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PropertyTest</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testPropertySet</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(MyConfig.class);</span><br><span class="line">        <span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> context.getBean(Person.class);</span><br><span class="line">        System.out.println(<span class="string">&quot;person = &quot;</span> + person); <span class="comment">// person = Person(name=property, age=18, sex=男)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h3><p>Spring利用依赖注入（DI），完成对IOC容器中各个组件的依赖关系赋值，主要有@Autowired、@Resource、@Inject三种方式。</p>
+<h4 id="标记属性完成自动装配"><a href="#标记属性完成自动装配" class="headerlink" title="标记属性完成自动装配"></a>标记属性完成自动装配</h4><h5 id="Autowired自动注入原理"><a href="#Autowired自动注入原理" class="headerlink" title="@Autowired自动注入原理"></a>@Autowired自动注入原理</h5><ol>
+<li><p>默认优先 按照类型去容器中找对应的组件：通过调用getBean(Class<T> var1)方法</p>
+</li>
+<li><p>如果容器中有多个相同类型的组件，再将属性的名称作为组件的id去容器中查找：通过调用getBean(String var1)方法</p>
+</li>
+<li><p>还可以通过@Qualifier注解指定需要自动装配的组件id</p>
+</li>
+<li><p>自动装配一定要将属性赋值好，没有则会报错。可以通过@Autowired(required=false)设置容器中有依赖的bean则自动装配，没有则不装配。</p>
+</li>
+<li><p>还可以使用@Primary注解，来指定进行装配的首选bean。</p>
+</li>
+</ol>
+<h5 id="开发步骤-1"><a href="#开发步骤-1" class="headerlink" title="开发步骤"></a>开发步骤</h5><ol>
+<li>分别创建三个类如下：</li>
+</ol>
+<p>UserDao类，依赖Person类，但是Person类并没有注册到容器中，因此@Autowired注解的required设置为 false防止报错，不需要重写toString方法，便于查看实例的地址判断是同一个实例，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.dao;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.bean.Person;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 1:33 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDao</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired(required = false)</span></span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>UserService类，依赖UserDao，且属性名称设置为userDao0，可以排除是根据属性名进行注入的，重写toString（只需要加上@Data注解即可）方法，可以查看到里面的UserDao实例，并且再在UserService中声明一个属性label以区分不同的UserService实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.dao.UserDao;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.NoArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 1:33 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> label;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserService</span><span class="params">(<span class="type">int</span> label)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.label = label;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDao userDao0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Usercontroller类，依赖UserService，为了演示根据属性名称和根据@Qualifier设置进行注入，此类中声明了两个UserService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.service.UserService;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 1:37 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService1;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="meta">@Qualifier(value = &quot;userService&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService2;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>新建一个配置类</li>
+</ol>
+<p>给类中，也创建了一个UserService实例，该实例的id为userService1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.service.UserService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 1:37 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(value = &#123;&quot;com.shg.dao&quot;, &quot;com.shg.service&quot;, &quot;com.shg.controller&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyConfig1</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> UserService <span class="title function_">userService1</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserService</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>查看输出结果</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.shg.config.MyConfig1;</span><br><span class="line"><span class="keyword">import</span> com.shg.dao.UserDao;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 1:39 上午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AutowiredTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testAutowired</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(MyConfig1.class);</span><br><span class="line">        Arrays.stream(context.getBeanDefinitionNames())</span><br><span class="line">                .filter(name -&gt; name.contains(<span class="string">&quot;user&quot;</span>))</span><br><span class="line">                .map(name -&gt; context.getBean(name))</span><br><span class="line">                .forEach(System.out::println);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p>userDao的地址为@51bd8b5c，所有的UserService实例中注入的userDao均为这一个</p>
+<p>UserController有2个UserService实例：</p>
+<ul>
+<li>userService1对应的是根据属性名注入的label为1的UserService实例</li>
+<li>userService2对应的是根据@Qualifier(value = “userService”)注入label为0的UserService实例</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">com.shg.dao.UserDao@51bd8b5c</span><br><span class="line">UserService(label=0, userDao0=com.shg.dao.UserDao@51bd8b5c)</span><br><span class="line">UserController(userService1=UserService(label=1, userDao0=com.shg.dao.UserDao@51bd8b5c), userService2=UserService(label=0, userDao0=com.shg.dao.UserDao@51bd8b5c))</span><br><span class="line">UserService(label=1, userDao0=com.shg.dao.UserDao@51bd8b5c)</span><br></pre></td></tr></table></figure>
+
+<h5 id="Resource与-Inject"><a href="#Resource与-Inject" class="headerlink" title="@Resource与@Inject"></a>@Resource与@Inject</h5><p>@Resource是JSR250规范的注解，@Inject是JSR330规范的注解，与@Autowired（Spring定义的）的区别如下：</p>
+<p><strong>彩蛋：</strong>意大利杯决赛    尤文图斯 vs 国际米兰 半场1:0</p>
+<p>@Resource</p>
+<ul>
+<li>可以和@Autowired一样实现自动装配功能，默认是按照组件名称进行装配</li>
+<li>没有支持@Primary功能，也没有支持@Autowired(required=false)</li>
+</ul>
+<p>@Inject</p>
+<ul>
+<li>首先需要导入java x.inject包</li>
+<li>支持@Primary功能，没有支持@Autowired(required=false)</li>
+</ul>
+<p><strong>彩蛋</strong>：意大利杯决赛    尤文图斯 vs 国际米兰 全场2:2进入加时赛</p>
+<p><strong>彩蛋</strong>：意大利杯决赛    尤文图斯 vs 国际米兰 加时2:4，国际米兰夺冠</p>
+<p><strong>FORZA INTER</strong></p>
+<h4 id="标记其他位置完成自动装配"><a href="#标记其他位置完成自动装配" class="headerlink" title="标记其他位置完成自动装配"></a>标记其他位置完成自动装配</h4><p>@Autowired可以标记在构造器、参数、方法、属性位置，都是从容器中获取参数组件的值</p>
+<ol>
+<li>标注在方法位置：@Bean+方法参数，参数从容器中获取</li>
+<li>标注在都早起上</li>
+</ol>
+<ul>
+<li>如果再见只有一个又惨构造器，这个有参构造器的@Autowired可以省略</li>
+</ul>
+<ol start="3">
+<li>放在参数位置</li>
+</ol>
+<h4 id="使用Spring容器底层的组件"><a href="#使用Spring容器底层的组件" class="headerlink" title="使用Spring容器底层的组件"></a>使用Spring容器底层的组件</h4><p>自定义组件如果想用Spring容器底层的一些组件如：ApplicationContext、BeanFactory等，可以通过自定义组件实现xxxAware接口，在创建对象的时候，会调用接口规定的方法注入相关组件。</p>
+<h4 id="Profile环境标识"><a href="#Profile环境标识" class="headerlink" title="@Profile环境标识"></a>@Profile环境标识</h4><p>Profile：Spring提供的可以根据当前环境，动态激活和切换一系列组件的功能</p>
+<p>@Profile注解：指定组件在哪个环境的情况下才能被注册到容器中。</p>
+<ul>
+<li><p>没有@Profile标识的bean，任何环境下都能注册这个bean</p>
+</li>
+<li><p>加了@Profile的bean，只有在标识的环境下才能注册到容器中，默认注册标识为“default”</p>
+</li>
+<li><p>如果@Profile写在类上，则只有指定环境的时候，整个配置类里面的所有配置才能生效</p>
+</li>
+</ul>
+<p>激活环境</p>
+<ol>
+<li>使用命令行动态参数：在虚拟机参数位置设置-Dspring.profile.active=test/prod/dev</li>
+<li>使用代码的方式激活某种环境</li>
+</ol>
+<h5 id="开发步骤——以配置数据库连接池为例"><a href="#开发步骤——以配置数据库连接池为例" class="headerlink" title="开发步骤——以配置数据库连接池为例"></a>开发步骤——以配置数据库连接池为例</h5><ol>
+<li>导入依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.mchange<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.5.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.29<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建配置文件</li>
+</ol>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">db.user</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">db.password</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">db.driverClass</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="attr">db.url.test</span>=<span class="string">jdbc:mysql://localhost:3306/library</span></span><br><span class="line"><span class="attr">db.url.dev</span>=<span class="string">jdbc:mysql://localhost:3306/cloud_user</span></span><br><span class="line"><span class="attr">db.url.prod</span>=<span class="string">jdbc:mysql://localhost:3306/community</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建配置类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.shg.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.mchange.v2.c3p0.ComboPooledDataSource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.EmbeddedValueResolverAware;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Profile;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.PropertySource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.util.StringValueResolver;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.sql.DataSource;</span><br><span class="line"><span class="keyword">import</span> java.beans.PropertyVetoException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: shg</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2022-05-12 2:23 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@PropertySource(value = &#123;&quot;classpath:/db.properties&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataSourceConfig</span> <span class="keyword">implements</span> <span class="title class_">EmbeddedValueResolverAware</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value(value = &quot;$&#123;db.user&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String user;</span><br><span class="line">    <span class="meta">@Value(value = &quot;$&#123;db.password&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="meta">@Value(value = &quot;$&#123;db.driverClass&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String driverClass;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> StringValueResolver resolver;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Profile(value = &quot;default&quot;)</span></span><br><span class="line">    <span class="meta">@Bean(value = &quot;defaultDataSource&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">dataSourceDefault</span><span class="params">(<span class="meta">@Value(value = &quot;$&#123;db.url.test&#125;&quot;)</span> String url)</span> <span class="keyword">throws</span> PropertyVetoException &#123;</span><br><span class="line">        <span class="type">ComboPooledDataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">        dataSource.setUser(user);</span><br><span class="line">        dataSource.setPassword(password);</span><br><span class="line">        dataSource.setJdbcUrl(url);</span><br><span class="line">        dataSource.setDriverClass(driverClass);</span><br><span class="line">        <span class="keyword">return</span> dataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Profile(value = &quot;test&quot;)</span></span><br><span class="line">    <span class="meta">@Bean(value = &quot;testDataSource&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">dataSourceTest</span><span class="params">(<span class="meta">@Value(value = &quot;$&#123;db.url.test&#125;&quot;)</span> String url)</span> <span class="keyword">throws</span> PropertyVetoException &#123;</span><br><span class="line">        <span class="type">ComboPooledDataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">        dataSource.setUser(user);</span><br><span class="line">        dataSource.setPassword(password);</span><br><span class="line">        dataSource.setJdbcUrl(url);</span><br><span class="line">        dataSource.setDriverClass(driverClass);</span><br><span class="line">        <span class="keyword">return</span> dataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Profile(value = &quot;dev&quot;)</span></span><br><span class="line">    <span class="meta">@Bean(value = &quot;devDataSource&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">dataSourceDev</span><span class="params">(<span class="meta">@Value(value = &quot;$&#123;db.password&#125;&quot;)</span> String password)</span> <span class="keyword">throws</span> PropertyVetoException &#123;</span><br><span class="line">        <span class="type">ComboPooledDataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">        dataSource.setUser(user);</span><br><span class="line">        dataSource.setPassword(password);</span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> resolver.resolveStringValue(<span class="string">&quot;$&#123;db.url.dev&#125;&quot;</span>);</span><br><span class="line">        dataSource.setJdbcUrl(url);</span><br><span class="line">        dataSource.setDriverClass(driverClass);</span><br><span class="line">        <span class="keyword">return</span> dataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Profile(value = &quot;prod&quot;)</span></span><br><span class="line">    <span class="meta">@Bean(value = &quot;prodDataSource&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">dataSourceProd</span><span class="params">(<span class="meta">@Value(value = &quot;$&#123;db.password&#125;&quot;)</span> String password)</span> <span class="keyword">throws</span> PropertyVetoException &#123;</span><br><span class="line">        <span class="type">ComboPooledDataSource</span> <span class="variable">dataSource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line">        dataSource.setUser(user);</span><br><span class="line">        dataSource.setPassword(password);</span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> resolver.resolveStringValue(<span class="string">&quot;$&#123;db.url.prod&#125;&quot;</span>);</span><br><span class="line">        dataSource.setJdbcUrl(url);</span><br><span class="line">        dataSource.setDriverClass(driverClass);</span><br><span class="line">        <span class="keyword">return</span> dataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setEmbeddedValueResolver</span><span class="params">(StringValueResolver resolver)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.resolver = resolver;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>查看运行结果</li>
+</ol>
+<ul>
+<li>不设置任何虚拟机参数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testProfile</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">ApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(DataSourceConfig.class);</span><br><span class="line">    String[] names = context.getBeanDefinitionNames();</span><br><span class="line">    Arrays.stream(names)</span><br><span class="line">        .filter(name -&gt; name.contains(<span class="string">&quot;Source&quot;</span>))</span><br><span class="line">        .forEach(System.out::println);</span><br><span class="line">    <span class="comment">// dataSourceConfig</span></span><br><span class="line">    <span class="comment">// defaultDataSource</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过代码的方式设置为<strong>test</strong>环境</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTestProfile</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 创建一个AnnotationConfigApplicationContext容器</span></span><br><span class="line">    <span class="type">AnnotationConfigApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>();</span><br><span class="line">    <span class="comment">// 设置需要激活的环境</span></span><br><span class="line">    context.getEnvironment().setActiveProfiles(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">    <span class="comment">// 注册配置类</span></span><br><span class="line">    context.register(DataSourceConfig.class);</span><br><span class="line">    <span class="comment">// 刷新容器</span></span><br><span class="line">    context.refresh();</span><br><span class="line">    String[] names = context.getBeanDefinitionNames();</span><br><span class="line">    Arrays.stream(names)</span><br><span class="line">        .filter(name -&gt; name.contains(<span class="string">&quot;Source&quot;</span>))</span><br><span class="line">        .forEach(System.out::println);</span><br><span class="line">    <span class="comment">// dataSourceConfig</span></span><br><span class="line">    <span class="comment">// testDataSource</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>属性赋值</li>
+</ol>
+<p>通过@Value完成属性赋值，注解中参数value可以是一个字符串、也可以是SpEL表达式、还可以是${}。</p>
+<ol start="2">
+<li>自动装配</li>
+</ol>
+<p>自动装配的注解有@Autowired、@Resource、@Inject，如果需要注入Spring底层的组件，如xxxAware，可以通过实现响应的接口，在对应方法中设置组件值。</p>
+<p>通过@Profile注解标识bean注册的环境。</p>
+<hr>
+<p><strong>Spring注解开发文章汇总</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://shgang97.github.io/2022/05/10/spring-annotation-1/">spring注解开发1——组件注册</a></p>
+<p><a target="_blank" rel="noopener" href="https://shgang97.github.io/2022/05/10/spring-annotation-2/">spring注解开发2——bean的生命周期</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/05/12/spring-annotation-3/" data-id="cl3dbnyed000kjg5mc5mhgglf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/" rel="tag">spring</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/05/13/solid/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          solid
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/10/spring-annotation-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">spring注解开发2——bean的生命周期</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecurity/">SpringSecurity</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringSecuriy/">SpringSecuriy</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/spring/ioc/">ioc</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/">图</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">面向对象设计</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringSecurity/" rel="tag">SpringSecurity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bfs/" rel="tag">bfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dfs/" rel="tag">dfs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/solid%E5%8E%9F%E5%88%99/" rel="tag">solid原则</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring/" rel="tag">spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" rel="tag">可视化建模</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE/" rel="tag">图</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%81%8D%E5%8E%86/" rel="tag">遍历</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">项目搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/tags/SpringBoot/" style="font-size: 10px;">SpringBoot</a> <a href="/tags/SpringSecurity/" style="font-size: 17.5px;">SpringSecurity</a> <a href="/tags/UML/" style="font-size: 10px;">UML</a> <a href="/tags/bfs/" style="font-size: 10px;">bfs</a> <a href="/tags/dfs/" style="font-size: 10px;">dfs</a> <a href="/tags/note/" style="font-size: 20px;">note</a> <a href="/tags/solid%E5%8E%9F%E5%88%99/" style="font-size: 10px;">solid原则</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BB%BA%E6%A8%A1/" style="font-size: 10px;">可视化建模</a> <a href="/tags/%E5%9B%BE/" style="font-size: 15px;">图</a> <a href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">工具类</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 12.5px;">数据结构</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a> <a href="/tags/%E9%81%8D%E5%8E%86/" style="font-size: 10px;">遍历</a> <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" style="font-size: 10px;">面向对象</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">项目搭建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/05/18/graph-traversal/">graph——图的遍历：bfs与dfs</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/18/graph-generator/">graph——图生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/spring-security-web3/">spring-security——web权限方案：自动登录</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/17/graph-basic/">graph——图数据结构基础</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/16/spring-security-web2/">spring-security——web权限方案：用户退出</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
