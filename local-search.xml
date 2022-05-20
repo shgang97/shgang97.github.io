@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>graph-topological-sort</title>
+    <link href="/posts/graph-topological-sort-3e4db9b0d660/"/>
+    <url>/posts/graph-topological-sort-3e4db9b0d660/</url>
+    
+    <content type="html"><![CDATA[<p><strong>摘要</strong>：</p><span id="more"></span><h3 id="AOC网（Activity-On-Vertex-Network）"><a href="#AOC网（Activity-On-Vertex-Network）" class="headerlink" title="AOC网（Activity On Vertex Network）"></a>AOC网（Activity On Vertex Network）</h3><p>在一个表示工程的有向图中，用顶点表示活动（Activity），用有向边表示活动之间的先后顺序，AOV网中不能出现环。</p><h3 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h3><p>拓扑排序是对<strong>有向无环图</strong>的顶点的一种排序，使得如果存在一条从vi到vj的路径，那么排序中vj就出现在vi的后面</p><h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><ul><li>从任意一个入度为0的顶点开始，将这个顶点及从这个顶点出发的边删除</li><li>重复上述操作，直到找不到入度为0的顶点</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> List&lt;K&gt; <span class="hljs-title function_">topologicalSort</span><span class="hljs-params">()</span> &#123;<br>    List&lt;K&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br>    Queue&lt;Vertex&lt;K, E&gt;&gt; zeroInDegreeQueue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;();<br>    Map&lt;Vertex&lt;K, E&gt;, Integer&gt; inMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    vertices.forEach((k, v) -&gt; &#123;<br>        <span class="hljs-keyword">if</span> (v.inEdges.size() == <span class="hljs-number">0</span>) &#123;<br>            zeroInDegreeQueue.offer(v);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            inMap.put(v, v.inEdges.size());<br>        &#125;<br>    &#125;);<br><br>    <span class="hljs-keyword">while</span> (!zeroInDegreeQueue.isEmpty()) &#123;<br>        Vertex&lt;K, E&gt; vertex = zeroInDegreeQueue.poll();<br>        list.add(vertex.key);<br>        vertex.outEdges.forEach(edge -&gt; &#123;<br>            inMap.put(edge.to, inMap.get(edge.to) - <span class="hljs-number">1</span>);<br>            <span class="hljs-keyword">if</span> (inMap.get(edge.to) == <span class="hljs-number">0</span>) &#123;<br>                zeroInDegreeQueue.offer(edge.to);<br>            &#125;<br>        &#125;);<br>    &#125;<br>    <span class="hljs-keyword">return</span> list;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构</category>
+      
+      <category>图</category>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数据结构</tag>
+      
+      <tag>图</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>graph——图的遍历：bfs与dfs</title>
     <link href="/posts/graph-traversal-7b15924367de/"/>
     <url>/posts/graph-traversal-7b15924367de/</url>
@@ -22,9 +53,9 @@
     
     <tags>
       
-      <tag>图</tag>
-      
       <tag>数据结构</tag>
+      
+      <tag>图</tag>
       
       <tag>遍历</tag>
       
@@ -113,9 +144,9 @@
     
     <tags>
       
-      <tag>图</tag>
-      
       <tag>数据结构</tag>
+      
+      <tag>图</tag>
       
     </tags>
     
