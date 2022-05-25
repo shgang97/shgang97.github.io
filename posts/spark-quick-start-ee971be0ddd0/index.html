@@ -16,16 +16,16 @@
   <meta name="author" content="shgang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="快速入门 使用 Spark Shell 进行交互式分析 基本 更多关于数据集操作 缓存   独立的应用程序 从这往哪儿走  本教程提供了使用 Spark 的快速介绍。我们将首先通过 Spark 的交互式 shell（Python 或 Scala）介绍 API，然后展示如何使用 Java、Scala 和 Python 编写应用程序。 要遵循本指南，首先，从 Spark 网站下载 Spark 的打包版">
+    <meta name="description" content="摘要：Spark 快速入门，交互式的 Spark shell 的使用，使用 Java 语言编写 Spark 应用程序。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Spark官方文档》——快速入门">
 <meta property="og:url" content="https://shgang97.github.io/posts/spark-quick-start-ee971be0ddd0/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
-<meta property="og:description" content="快速入门 使用 Spark Shell 进行交互式分析 基本 更多关于数据集操作 缓存   独立的应用程序 从这往哪儿走  本教程提供了使用 Spark 的快速介绍。我们将首先通过 Spark 的交互式 shell（Python 或 Scala）介绍 API，然后展示如何使用 Java、Scala 和 Python 编写应用程序。 要遵循本指南，首先，从 Spark 网站下载 Spark 的打包版">
+<meta property="og:description" content="摘要：Spark 快速入门，交互式的 Spark shell 的使用，使用 Java 语言编写 Spark 应用程序。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
 <meta property="article:published_time" content="2022-05-25T09:29:14.000Z">
-<meta property="article:modified_time" content="2022-05-25T09:39:19.349Z">
+<meta property="article:modified_time" content="2022-05-25T18:55:21.113Z">
 <meta property="article:author" content="shgang">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Spark">
@@ -278,7 +278,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.3k 字
+          5.6k 字
         
       </span>
     
@@ -289,7 +289,7 @@
         
         
         
-          45 分钟
+          47 分钟
         
       </span>
     
@@ -340,29 +340,38 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年5月25日 下午
+                    本文最后更新于：2022年5月26日 凌晨
                   
                 
               </p>
             
             <div class="markdown-body">
               
-              <h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><ul>
-<li>使用 Spark Shell 进行交互式分析<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#basics">基本</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#more-on-dataset-operations">更多关于数据集操作</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#caching">缓存</a></li>
+              <p><strong>摘要</strong>：Spark 快速入门，交互式的 Spark shell 的使用，使用 Java 语言编写 Spark 应用程序。</p>
+<span id="more"></span>
+
+<h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><p>在翻译 Spark 官方文档 Quick Start 部分的基础上进行整理，原文中涉及 Java、Scala、Python 等语言，在翻译及操作演示过程中，优先选择 Java 语言，没有 Java 则选择 Scala，而其他的可以参看官方文档。</p>
+<p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html">《Spark 官方文档——快速入门》原文地址</a></p>
+<ul>
+<li><a href="#interactive-analysis-with-the-spark-hell">使用 Spark Shell 进行交互式分析</a><ul>
+<li><a href="#basic">基础</a></li>
+<li><a href="#more-on-dataset-operations">更多关于 Dataset 算子</a></li>
+<li><a href="#caching">缓存</a></li>
 </ul>
 </li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#self-contained-applications">独立的应用程序</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#where-to-go-from-here">从这往哪儿走</a></li>
+<li><a href="#self-contained-applications">独立的应用程序</a></li>
+<li><a href="#where-to-go-from-here">进一步学习</a></li>
 </ul>
-<p>本教程提供了使用 Spark 的快速介绍。我们将首先通过 Spark 的交互式 shell（Python 或 Scala）介绍 API，然后展示如何使用 Java、Scala 和 Python 编写应用程序。</p>
-<p>要遵循本指南，首先，从 <a target="_blank" rel="noopener" href="https://spark.apache.org/downloads.html">Spark 网站</a>下载 Spark 的打包版本。由于我们不会使用 HDFS，因此您可以下载适用于任何 Hadoop 版本的包。</p>
-<p>请注意，在 Spark 2.0 之前，Spark 的主要编程接口是弹性分布式数据集（RDD）。在 Spark 2.0 之后，RDD 被 Dataset 取代，它像 RDD 一样是强类型的，但在底层进行了更丰富的优化。仍然支持 RDD 接口，您可以在<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD 编程指南</a>中获得更详细的参考。但是，我们强烈建议您改用 Dataset，它的性能比 RDD 更好。请参阅<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/sql-programming-guide.html">SQL 编程指南</a>以获取有关数据集的更多信息。</p>
-<h1 id="使用-Spark-Shell-进行交互式分析"><a href="#使用-Spark-Shell-进行交互式分析" class="headerlink" title="使用 Spark Shell 进行交互式分析"></a>使用 Spark Shell 进行交互式分析</h1><h2 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h2><p>Spark 的 shell 提供了一种学习 API 的简单方法，以及交互式分析数据的强大工具。它可以在 Scala（在 Java VM 上运行，因此是使用现有 Java 库的好方法）或 Python 中可用。通过在 Spark 目录中运行以下命令来启动它：</p>
+<p>本教程是对 Spark 的一个简单介绍。首先，我们将通过交互式的 Spark  shell（基于 Python 或 Scala）介绍 API，然后展示如何使用 Java、Scala 和 Python 编写 Spark 应用程序。</p>
+<p>首先，请从  <a target="_blank" rel="noopener" href="https://spark.apache.org/downloads.html">Spark website</a> 下载 Spark 的发布版本，以便学习本指南。由于我们不会用到 HDFS，因此您可以下载适用于任何 Hadoop 版本的包。</p>
+<p>请注意，在 Spark 2.0 之前，Spark 的主要编程接口是弹性分布式数据集（RDD）。在 Spark 2.0 之后，RDD 被 Dataset 取代，它像 RDD 一样是强类型的，但在底层进行了更丰富的优化。仍然支持 RDD 接口，您可以在 <a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD programming guide</a> 中获得更详细的参考。但是，我们强烈建议您改用 Dataset，它的性能比 RDD 更好。请参阅 <a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/sql-programming-guide.html">SQL programming-guide</a> 以获取有关 Dataset 的更多信息。</p>
+<h1 name="interactive-analysis-with-the-spark-hell">使用 Spark Shell 进行交互式分析</h1>
+
+<h2 name="basic">基础</h2>
+
+<p>Spark Shell 提供了一种学习 Spark API 的简单方法，同时也是一款强大的交互式数据分析工具，在 Scala（运行在 JVM 上，因此可以很好地利用现有的 Java 库）和 Python 中均可以使用。在 Spark 目录中运行如下命令可以启动一个 Spark Shell：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_0"><strong>斯卡拉</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_0"><strong>Scala</strong></a></li>
 <li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_python_0"><strong>Python</strong></a></li>
 </ul>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">.<span class="hljs-regexp">/bin/</span>spark-shell<br></code></pre></td></tr></table></figure>
@@ -379,9 +388,11 @@
 <p>我们可以将转换和操作链接在一起：</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">scala&gt; textFile.<span class="hljs-built_in">filter</span>(<span class="hljs-function"><span class="hljs-params">line</span> =&gt;</span> line.<span class="hljs-built_in">contains</span>(<span class="hljs-string">&quot;Spark&quot;</span>)).<span class="hljs-built_in">count</span>() <span class="hljs-comment">// How many lines contain &quot;Spark&quot;?</span><br>res3: Long = <span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="更多关于数据集操作"><a href="#更多关于数据集操作" class="headerlink" title="更多关于数据集操作"></a>更多关于数据集操作</h2><p>数据集操作和转换可用于更复杂的计算。假设我们要找到单词最多的行：</p>
+<h2 name="more-on-dataset-operations">更多关于 Dataset 算子</h2>
+
+<p>数据集操作和转换可用于更复杂的计算。假设我们要找到单词最多的行：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_1"><strong>斯卡拉</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_1"><strong>Scala</strong></a></li>
 <li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_python_1"><strong>Python</strong></a></li>
 </ul>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">scala&gt; textFile.<span class="hljs-built_in">map</span>(<span class="hljs-function"><span class="hljs-params">line</span> =&gt;</span> line.<span class="hljs-built_in">split</span>(<span class="hljs-string">&quot; &quot;</span>).size).<span class="hljs-built_in">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> <span class="hljs-keyword">if</span> (a &gt; b) a <span class="hljs-keyword">else</span> b)<br>res4: Long = <span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
@@ -395,18 +406,22 @@
 <p>在这里，我们调用<code>flatMap</code>将行数据集转换为单词数据集，然后将文件中的每个单词计数组合<code>groupByKey</code>并<code>count</code>计算为 (String, Long) 对的数据集。要在我们的 shell 中收集字数，我们可以调用<code>collect</code>：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">scala</span>&gt; wordCounts.collect()<br><span class="hljs-attribute">res6</span>: Array[(String, Int)] = Array((means,<span class="hljs-number">1</span>), (under,<span class="hljs-number">2</span>), (this,<span class="hljs-number">3</span>), (Because,<span class="hljs-number">1</span>), (Python,<span class="hljs-number">2</span>), (agree,<span class="hljs-number">1</span>), (cluster.,<span class="hljs-number">1</span>), ...)<br></code></pre></td></tr></table></figure>
 
-<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>Spark 还支持将数据集拉入集群范围的内存缓存中。这在重复访问数据时非常有用，例如查询小型“热”数据集或运行 PageRank 等迭代算法时。作为一个简单的示例，让我们将<code>linesWithSpark</code>数据集标记为要缓存：</p>
+<h2 name="caching">缓存</h2>
+
+<p>Spark 还支持将数据集拉入集群范围的内存缓存中。这在重复访问数据时非常有用，例如查询小型“热”数据集或运行 PageRank 等迭代算法时。作为一个简单的示例，让我们将<code>linesWithSpark</code>数据集标记为要缓存：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_2"><strong>斯卡拉</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_2"><strong>Scala</strong></a></li>
 <li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_python_2"><strong>Python</strong></a></li>
 </ul>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">scala</span>&gt; linesWithSpark.cache()<br>res7: linesWithSpark.<span class="hljs-keyword">type</span> = [value: string]<br><br><span class="hljs-keyword">scala</span>&gt; linesWithSpark.<span class="hljs-keyword">count</span>()<br>res8: Long = 15<br><br><span class="hljs-keyword">scala</span>&gt; linesWithSpark.<span class="hljs-keyword">count</span>()<br>res9: Long = 15<br></code></pre></td></tr></table></figure>
 
 <p>使用 Spark 探索和缓存一个 100 行的文本文件可能看起来很愚蠢。有趣的是，这些相同的函数可以用于非常大的数据集，即使它们跨越数十或数百个节点。您也可以通过连接<code>bin/spark-shell</code>到集群以交互方式执行此操作，如<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#using-the-shell">RDD 编程指南</a>中所述。</p>
-<h1 id="独立的应用程序"><a href="#独立的应用程序" class="headerlink" title="独立的应用程序"></a>独立的应用程序</h1><p>假设我们希望使用 Spark API 编写一个独立的应用程序。我们将在 Scala（使用 sbt）、Java（使用 Maven）和 Python (pip) 中完成一个简单的应用程序。</p>
+<h1 name="self-contained-applications">独立的应用程序</h1>
+
+<p>假设我们希望使用 Spark API 编写一个独立的应用程序。我们将在 Scala（使用 sbt）、Java（使用 Maven）和 Python (pip) 中完成一个简单的应用程序。</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_3"><strong>斯卡拉</strong></a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_java_3"><strong>爪哇</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_scala_3"><strong>Scala</strong></a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_java_3"><strong>Java</strong></a></li>
 <li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/quick-start.html#tab_python_3"><strong>Python</strong></a></li>
 </ul>
 <p>此示例将使用 Maven 编译应用程序 JAR，但任何类似的构建系统都可以使用。</p>
@@ -424,13 +439,15 @@
 <figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs nim"><span class="hljs-comment"># Package a JAR containing your application</span><br>$ mvn package<br>...<br>[<span class="hljs-type">INFO</span>] <span class="hljs-type">Building</span> jar: <span class="hljs-meta">&#123;..&#125;</span>/<span class="hljs-meta">&#123;..&#125;</span>/target/simple-project-<span class="hljs-number">1</span>.<span class="hljs-number">0</span>.jar<br><br><span class="hljs-comment"># Use spark-submit to run your application</span><br>$ <span class="hljs-type">YOUR_SPARK_HOME</span>/bin/spark-submit \<br>  --class <span class="hljs-string">&quot;SimpleApp&quot;</span> \<br>  --master local[<span class="hljs-number">4</span>] \<br>  target/simple-project-<span class="hljs-number">1</span>.<span class="hljs-number">0</span>.jar<br>...<br><span class="hljs-type">Lines</span> <span class="hljs-keyword">with</span> a: <span class="hljs-number">46</span>, <span class="hljs-type">Lines</span> <span class="hljs-keyword">with</span> b: <span class="hljs-number">23</span><br></code></pre></td></tr></table></figure>
 
 <p>Conda 和 pip 等其他依赖管理工具也可用于自定义类或第三方库。另请参阅<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/api/python/user_guide/python_packaging.html">Python 包管理</a>。</p>
-<h1 id="从这往哪儿走"><a href="#从这往哪儿走" class="headerlink" title="从这往哪儿走"></a>从这往哪儿走</h1><p>恭喜您运行了您的第一个 Spark 应用程序！</p>
+<h1 name="where-to-go-from-here">进一步学习</h1>
+
+<p>恭喜您运行了您的第一个 Spark 应用程序！</p>
 <ul>
 <li>要深入了解 API，请从<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD 编程指南</a>和<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/sql-programming-guide.html">SQL 编程指南</a>开始，或查看“编程指南”菜单了解其他组件。</li>
 <li>要在集群上运行应用程序，请参阅<a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/cluster-overview.html">部署概述</a>。</li>
 <li>最后，Spark 在<code>examples</code>目录中包含了几个示例（<a target="_blank" rel="noopener" href="https://github.com/apache/spark/tree/master/examples/src/main/scala/org/apache/spark/examples">Scala</a>、 <a target="_blank" rel="noopener" href="https://github.com/apache/spark/tree/master/examples/src/main/java/org/apache/spark/examples">Java</a>、 <a target="_blank" rel="noopener" href="https://github.com/apache/spark/tree/master/examples/src/main/python">Python</a>、 <a target="_blank" rel="noopener" href="https://github.com/apache/spark/tree/master/examples/src/main/r">R</a>）。您可以按如下方式运行它们：</li>
 </ul>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># For Scala and Java, use run-example:</span><br>.<span class="hljs-regexp">/bin/</span>run-example SparkPi<br><br><span class="hljs-comment"># For Python examples, use spark-submit directly:</span><br>.<span class="hljs-regexp">/bin/</span>spark-submit examples<span class="hljs-regexp">/src/m</span>ain<span class="hljs-regexp">/python/</span>pi.py<br><br><span class="hljs-comment"># For R examples, use spark-submit directly:</span><br>.<span class="hljs-regexp">/bin/</span>spark-submit examples<span class="hljs-regexp">/src/m</span>ain<span class="hljs-regexp">/r/</span>dataframe.R<br></code></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># For Scala and Java, use run-example:</span><br>./bin/run-example SparkPi<br><br><span class="hljs-section"># For Python examples, use spark-submit directly:</span><br>./bin/spark-submit examples/src/main/python/pi.py<br><br><span class="hljs-section"># For R examples, use spark-submit directly:</span><br>./bin/spark-submit examples/src/main/r/dataframe.R<br></code></pre></td></tr></table></figure>
 
               
             </div>
@@ -498,7 +515,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年5月25日</div>
+          <div>2022年5月26日</div>
         </div>
       
       <div class="license-meta-item">
