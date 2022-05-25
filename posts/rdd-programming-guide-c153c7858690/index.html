@@ -16,27 +16,27 @@
   <meta name="author" content="shgang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="摘要：">
+    <meta name="description" content="RDD编程指南  概述  链接Spark  Initializing Spark  Using the Shell   Resilient Distributed Datasets (RDDs)  Parallelized Collections  External Datasets  RDD Operations  Basics  Passing Functions to Spark  Unde">
 <meta property="og:type" content="article">
-<meta property="og:title" content="graph-minimum-spanning-tree">
-<meta property="og:url" content="https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/index.html">
+<meta property="og:title" content="《Spark官方文档》——RDD编程指南">
+<meta property="og:url" content="https://shgang97.github.io/posts/rdd-programming-guide-c153c7858690/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
-<meta property="og:description" content="摘要：">
+<meta property="og:description" content="RDD编程指南  概述  链接Spark  Initializing Spark  Using the Shell   Resilient Distributed Datasets (RDDs)  Parallelized Collections  External Datasets  RDD Operations  Basics  Passing Functions to Spark  Unde">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
-<meta property="article:published_time" content="2022-05-20T10:00:56.000Z">
-<meta property="article:modified_time" content="2022-05-20T10:16:38.118Z">
+<meta property="article:published_time" content="2022-05-25T08:27:42.000Z">
+<meta property="article:modified_time" content="2022-05-25T09:28:11.619Z">
 <meta property="article:author" content="shgang">
-<meta property="article:tag" content="数据结构">
-<meta property="article:tag" content="图">
-<meta property="article:tag" content="prim">
-<meta property="article:tag" content="kruskal">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spark">
+<meta property="article:tag" content="Spark-RDD-Programming-Guide">
+<meta property="article:tag" content="《Spark 官方文档》">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://shgang97.github.io/img/default_index.png">
   
   
   
-  <title>graph-minimum-spanning-tree - Shgang&#39;s Blog</title>
+  <title>《Spark官方文档》——RDD编程指南 - Shgang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -251,7 +251,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="graph-minimum-spanning-tree"></span>
+            <span id="subtitle" data-typed-text="《Spark官方文档》——RDD编程指南"></span>
           
         </div>
 
@@ -267,8 +267,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-20 18:00" pubdate>
-          2022年5月20日 晚上
+        <time datetime="2022-05-25 16:27" pubdate>
+          2022年5月25日 下午
         </time>
       </span>
     
@@ -279,7 +279,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          100 字
+          1.3k 字
         
       </span>
     
@@ -290,7 +290,7 @@
         
         
         
-          1 分钟
+          11 分钟
         
       </span>
     
@@ -336,27 +336,95 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">graph-minimum-spanning-tree</h1>
+            <h1 style="display: none">《Spark官方文档》——RDD编程指南</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年5月20日 晚上
+                    本文最后更新于：2022年5月25日 下午
                   
                 
               </p>
             
             <div class="markdown-body">
               
-              <p><strong>摘要</strong>：</p>
-<span id="more"></span>
-
-<h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>连接图G的所有顶点构成的边构成的树，且其总权重最下</p>
+              <p>RDD编程指南</p>
 <ul>
-<li>包含图中全部的n个顶点，边的条数为n-1</li>
-<li>所欲生成树中总权值最下</li>
+<li><p><a href="#overview">概述</a></p>
+</li>
+<li><p><a href="#linking-with-spark">链接Spark</a></p>
+</li>
+<li><p>Initializing Spark</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#using-the-shell">Using the Shell</a></li>
 </ul>
-<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3><h4 id="切分定理"><a href="#切分定理" class="headerlink" title="切分定理"></a>切分定理</h4><p>切分（Cut）：把图中的节点分为两部分，称为一个切分</p>
+</li>
+<li><p>Resilient Distributed Datasets (RDDs)</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#parallelized-collections">Parallelized Collections</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#external-datasets">External Datasets</a></p>
+</li>
+<li><p>RDD Operations</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#basics">Basics</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#passing-functions-to-spark">Passing Functions to Spark</a></p>
+</li>
+<li><p>Understanding closures</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#example">Example</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#local-vs-cluster-modes">Local vs. cluster modes</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#printing-elements-of-an-rdd">Printing elements of an RDD</a></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#working-with-key-value-pairs">Working with Key-Value Pairs</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#transformations">Transformations</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#actions">Actions</a></p>
+</li>
+<li><p>Shuffle operations</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#background">Background</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#performance-impact">Performance Impact</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>RDD Persistence</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#which-storage-level-to-choose">Which Storage Level to Choose?</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#removing-data">Removing Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Shared Variables</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#broadcast-variables">Broadcast Variables</a></li>
+<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#accumulators">Accumulators</a></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#deploying-to-a-cluster">Deploying to a Cluster</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#launching-spark-jobs-from-java--scala">Launching Spark jobs from Java / Scala</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#unit-testing">Unit Testing</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#where-to-go-from-here">Where to Go from Here</a></p>
+</li>
+</ul>
+<h1><a name="overview">概述</a></h1>
+
+<p>在较高的层次上，每个Spark应用都包含一个驱动器程序（以下翻译简称为“驱动程序”或“程序”），用来运行用户的main函数，并在集群上执行各种并行操作。==弹性分布式数据集( <em>resilient distributed dataset</em>-RDD)==是Spark提供的一个主要抽象概念，RDD是一个可分区的元素集合，其中的元素分布在集群的各个节点上，并且可以并行操作。创建RDD可以通过HDFS（或者Hadoop支持的其他文件系统）上的文件，或者驱动程序中Scala集合对象，并对其进行转换。用户还可以使用Spark将RDD持久化到内存中，以便在并行操作中有效地复用。最后，rdd可以从节点故障中自动恢复数据。</p>
+<p>Spark中的第二个抽象概念是可用于并行操作的==共享变量==。默认情况下，当Spark作为一组任务在不同的节点上并行运行一个函数时，它将函数中使用的每个变量的副本发送给每个任务。有时候，一个变量需要在任务之间共享，或者在任务和驱动程序之间共享。Spark支持两种类型的共享变量:广播变量(broadcast variable)和累加变量(accumulators)，前者可用于在所有节点的内存中缓存一个值，后者是只能“添加”的变量，如计数器和和。</p>
+<p>本指南展示了每种Spark支持的语言中的这些特性。如果您启动Spark的交互式shell——对于Scala shell是bin/ Spark -shell，对于Python shell是bin/pyspark，这是最容易的。</p>
+<h1><a name="linking-with-spark">链接Spark</a></h1>
+
+<p>Spark 3.2.1 支持 lambda 表达式来简洁地编写函数，否则可以使用 org.apache.spark.api.java.function 包中的类。</p>
+<p>请注意，在 Spark 2.2.0 中删除了对 Java 7 的支持。</p>
+<p>要使用 Java 编写 Spark 应用程序，您需要添加对 Spark 的依赖项。Spark 可通过 Maven Central 在以下位置获得：</p>
 
               
             </div>
@@ -374,32 +442,8 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">数据结构</a>
+  <a href="/categories/Spark/" class="category-chain-item">Spark</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" class="category-chain-item">图</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%9B%BE/" class="category-chain-item">图</a>
-  
-  
-
   
 
       </span>
@@ -413,13 +457,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">#数据结构</a>
+        <a href="/tags/Java/">#Java</a>
       
-        <a href="/tags/%E5%9B%BE/">#图</a>
+        <a href="/tags/Spark/">#Spark</a>
       
-        <a href="/tags/prim/">#prim</a>
+        <a href="/tags/Spark-RDD-Programming-Guide/">#Spark-RDD-Programming-Guide</a>
       
-        <a href="/tags/kruskal/">#kruskal</a>
+        <a href="/tags/%E3%80%8ASpark-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E3%80%8B/">#《Spark 官方文档》</a>
       
     </div>
   
@@ -431,8 +475,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>graph-minimum-spanning-tree</div>
-      <div>https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/</div>
+      <div>《Spark官方文档》——RDD编程指南</div>
+      <div>https://shgang97.github.io/posts/rdd-programming-guide-c153c7858690/</div>
     </div>
     <div class="license-meta">
       
@@ -444,13 +488,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月20日</div>
+          <div>2022年5月25日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年5月20日</div>
+          <div>2022年5月25日</div>
         </div>
       
       <div class="license-meta-item">
@@ -479,18 +523,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/advance-java-tuning-34da480e8450/" title="advance-java-tuning">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">advance-java-tuning</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/graph-topological-sort-3e4db9b0d660/" title="graph-topological-sort">
-                        <span class="hidden-mobile">graph-topological-sort</span>
+                      <a href="/posts/advance-java-tuning-34da480e8450/" title="advance-java-tuning">
+                        <span class="hidden-mobile">advance-java-tuning</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

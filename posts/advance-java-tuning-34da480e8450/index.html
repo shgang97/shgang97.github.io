@@ -18,25 +18,23 @@
   
     <meta name="description" content="摘要：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="graph-minimum-spanning-tree">
-<meta property="og:url" content="https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/index.html">
+<meta property="og:title" content="advance-java-tuning">
+<meta property="og:url" content="https://shgang97.github.io/posts/advance-java-tuning-34da480e8450/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
 <meta property="og:description" content="摘要：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
-<meta property="article:published_time" content="2022-05-20T10:00:56.000Z">
-<meta property="article:modified_time" content="2022-05-20T10:16:38.118Z">
+<meta property="article:published_time" content="2022-05-23T11:14:40.000Z">
+<meta property="article:modified_time" content="2022-05-23T11:20:53.826Z">
 <meta property="article:author" content="shgang">
-<meta property="article:tag" content="数据结构">
-<meta property="article:tag" content="图">
-<meta property="article:tag" content="prim">
-<meta property="article:tag" content="kruskal">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JVM Performance tuning">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://shgang97.github.io/img/default_index.png">
   
   
   
-  <title>graph-minimum-spanning-tree - Shgang&#39;s Blog</title>
+  <title>advance-java-tuning - Shgang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -251,7 +249,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="graph-minimum-spanning-tree"></span>
+            <span id="subtitle" data-typed-text="advance-java-tuning"></span>
           
         </div>
 
@@ -267,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-20 18:00" pubdate>
-          2022年5月20日 晚上
+        <time datetime="2022-05-23 19:14" pubdate>
+          2022年5月23日 晚上
         </time>
       </span>
     
@@ -279,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          100 字
+          192 字
         
       </span>
     
@@ -290,7 +288,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -336,12 +334,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">graph-minimum-spanning-tree</h1>
+            <h1 style="display: none">advance-java-tuning</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年5月20日 晚上
+                    本文最后更新于：2022年5月23日 晚上
                   
                 
               </p>
@@ -351,12 +349,11 @@
               <p><strong>摘要</strong>：</p>
 <span id="more"></span>
 
-<h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>连接图G的所有顶点构成的边构成的树，且其总权重最下</p>
+<h3 id="JVM调优概述"><a href="#JVM调优概述" class="headerlink" title="JVM调优概述"></a>JVM调优概述</h3><p>JVM调优标志：布尔标志和附带参数标志</p>
 <ul>
-<li>包含图中全部的n个顶点，边的条数为n-1</li>
-<li>所欲生成树中总权值最下</li>
+<li>布尔标志：-XX:+FlagName表示开启，-XX:-FlagName表示关闭</li>
+<li>附带参数标志：-XX:FlagName=something，表示将flagName设置为something，其中something通常可以为任意值。例如 -XX:NewRatio=N，表示NewRatio可以设置为任意值N（N是我们讨论关注的重点）</li>
 </ul>
-<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3><h4 id="切分定理"><a href="#切分定理" class="headerlink" title="切分定理"></a>切分定理</h4><p>切分（Cut）：把图中的节点分为两部分，称为一个切分</p>
 
               
             </div>
@@ -364,62 +361,13 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">数据结构</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE/" class="category-chain-item">图</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%9B%BE/" class="category-chain-item">图</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">#数据结构</a>
+        <a href="/tags/Java/">#Java</a>
       
-        <a href="/tags/%E5%9B%BE/">#图</a>
-      
-        <a href="/tags/prim/">#prim</a>
-      
-        <a href="/tags/kruskal/">#kruskal</a>
+        <a href="/tags/JVM-Performance-tuning/">#JVM Performance tuning</a>
       
     </div>
   
@@ -431,8 +379,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>graph-minimum-spanning-tree</div>
-      <div>https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/</div>
+      <div>advance-java-tuning</div>
+      <div>https://shgang97.github.io/posts/advance-java-tuning-34da480e8450/</div>
     </div>
     <div class="license-meta">
       
@@ -444,13 +392,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月20日</div>
+          <div>2022年5月23日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年5月20日</div>
+          <div>2022年5月23日</div>
         </div>
       
       <div class="license-meta-item">
@@ -479,9 +427,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/advance-java-tuning-34da480e8450/" title="advance-java-tuning">
+                      <a href="/posts/rdd-programming-guide-c153c7858690/" title="《Spark官方文档》——RDD编程指南">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">advance-java-tuning</span>
+                        <span class="hidden-mobile">《Spark官方文档》——RDD编程指南</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -489,8 +437,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/graph-topological-sort-3e4db9b0d660/" title="graph-topological-sort">
-                        <span class="hidden-mobile">graph-topological-sort</span>
+                      <a href="/posts/graph-minimum-spanning-tree-c75337d77627/" title="graph-minimum-spanning-tree">
+                        <span class="hidden-mobile">graph-minimum-spanning-tree</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
