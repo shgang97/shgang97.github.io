@@ -16,27 +16,25 @@
   <meta name="author" content="shgang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="RDD编程指南  概述  链接Spark  Initializing Spark  Using the Shell   Resilient Distributed Datasets (RDDs)  Parallelized Collections  External Datasets  RDD Operations  Basics  Passing Functions to Spark  Unde">
+    <meta name="description" content="摘要：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《Spark官方文档》——RDD编程指南">
-<meta property="og:url" content="https://shgang97.github.io/posts/spark-rdd-programming-guide-e933e875d63d/index.html">
+<meta property="og:title" content="spring-annotation-aop">
+<meta property="og:url" content="https://shgang97.github.io/posts/spring-annotation-aop-a154da16f5a8/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
-<meta property="og:description" content="RDD编程指南  概述  链接Spark  Initializing Spark  Using the Shell   Resilient Distributed Datasets (RDDs)  Parallelized Collections  External Datasets  RDD Operations  Basics  Passing Functions to Spark  Unde">
+<meta property="og:description" content="摘要：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
-<meta property="article:published_time" content="2022-05-25T08:27:42.000Z">
-<meta property="article:modified_time" content="2022-05-27T10:51:02.410Z">
+<meta property="article:published_time" content="2022-05-26T17:09:44.000Z">
+<meta property="article:modified_time" content="2022-05-27T10:50:31.719Z">
 <meta property="article:author" content="shgang">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="Spark">
-<meta property="article:tag" content="《Spark 官方文档》">
-<meta property="article:tag" content="Spark-RDD-Programming-Guide">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="note">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://shgang97.github.io/img/default_index.png">
   
   
   
-  <title>《Spark官方文档》——RDD编程指南 - Shgang&#39;s Blog</title>
+  <title>spring-annotation-aop - Shgang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -251,7 +249,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="《Spark官方文档》——RDD编程指南"></span>
+            <span id="subtitle" data-typed-text="spring-annotation-aop"></span>
           
         </div>
 
@@ -267,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-25 16:27" pubdate>
-          2022年5月25日 下午
+        <time datetime="2022-05-27 01:09" pubdate>
+          2022年5月27日 凌晨
         </time>
       </span>
     
@@ -279,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          3.6k 字
         
       </span>
     
@@ -290,7 +288,7 @@
         
         
         
-          11 分钟
+          31 分钟
         
       </span>
     
@@ -336,7 +334,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">《Spark官方文档》——RDD编程指南</h1>
+            <h1 style="display: none">spring-annotation-aop</h1>
             
               <p class="note note-info">
                 
@@ -348,83 +346,56 @@
             
             <div class="markdown-body">
               
-              <p>RDD编程指南</p>
-<ul>
-<li><p><a href="#overview">概述</a></p>
-</li>
-<li><p><a href="#linking-with-spark">链接Spark</a></p>
-</li>
-<li><p>Initializing Spark</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#using-the-shell">Using the Shell</a></li>
-</ul>
-</li>
-<li><p>Resilient Distributed Datasets (RDDs)</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#parallelized-collections">Parallelized Collections</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#external-datasets">External Datasets</a></p>
-</li>
-<li><p>RDD Operations</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#basics">Basics</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#passing-functions-to-spark">Passing Functions to Spark</a></p>
-</li>
-<li><p>Understanding closures</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#example">Example</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#local-vs-cluster-modes">Local vs. cluster modes</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#printing-elements-of-an-rdd">Printing elements of an RDD</a></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#working-with-key-value-pairs">Working with Key-Value Pairs</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#transformations">Transformations</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#actions">Actions</a></p>
-</li>
-<li><p>Shuffle operations</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#background">Background</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#performance-impact">Performance Impact</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>RDD Persistence</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#which-storage-level-to-choose">Which Storage Level to Choose?</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#removing-data">Removing Data</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Shared Variables</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#broadcast-variables">Broadcast Variables</a></li>
-<li><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#accumulators">Accumulators</a></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#deploying-to-a-cluster">Deploying to a Cluster</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#launching-spark-jobs-from-java--scala">Launching Spark jobs from Java / Scala</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#unit-testing">Unit Testing</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/rdd-programming-guide.html#where-to-go-from-here">Where to Go from Here</a></p>
-</li>
-</ul>
-<h1><a name="overview">概述</a></h1>
+              <p><strong>摘要</strong>：</p>
+<span id="more"></span>
 
-<p>在较高的层次上，每个Spark应用都包含一个驱动器程序（以下翻译简称为“驱动程序”或“程序”），用来运行用户的main函数，并在集群上执行各种并行操作。==弹性分布式数据集( <em>resilient distributed dataset</em>-RDD)==是Spark提供的一个主要抽象概念，RDD是一个可分区的元素集合，其中的元素分布在集群的各个节点上，并且可以并行操作。创建RDD可以通过HDFS（或者Hadoop支持的其他文件系统）上的文件，或者驱动程序中Scala集合对象，并对其进行转换。用户还可以使用Spark将RDD持久化到内存中，以便在并行操作中有效地复用。最后，rdd可以从节点故障中自动恢复数据。</p>
-<p>Spark中的第二个抽象概念是可用于并行操作的==共享变量==。默认情况下，当Spark作为一组任务在不同的节点上并行运行一个函数时，它将函数中使用的每个变量的副本发送给每个任务。有时候，一个变量需要在任务之间共享，或者在任务和驱动程序之间共享。Spark支持两种类型的共享变量:广播变量(broadcast variable)和累加变量(accumulators)，前者可用于在所有节点的内存中缓存一个值，后者是只能“添加”的变量，如计数器和和。</p>
-<p>本指南展示了每种Spark支持的语言中的这些特性。如果您启动Spark的交互式shell——对于Scala shell是bin/ Spark -shell，对于Python shell是bin/pyspark，这是最容易的。</p>
-<h1><a name="linking-with-spark">链接Spark</a></h1>
+<h1>AOP 功能测试</h1>
 
-<p>Spark 3.2.1 支持 lambda 表达式来简洁地编写函数，否则可以使用 org.apache.spark.api.java.function 包中的类。</p>
-<p>请注意，在 Spark 2.2.0 中删除了对 Java 7 的支持。</p>
-<p>要使用 Java 编写 Spark 应用程序，您需要添加对 Spark 的依赖项。Spark 可通过 Maven Central 在以下位置获得：</p>
+<p>AOP：【动态代理】——指在程序运行期间动态地将某段代码切入到指定方法指定位置运行的编程方式</p>
+<ul>
+<li>通知方法：<ul>
+<li>前置通知 @Before</li>
+<li>后置通知 @After</li>
+<li>返回通知 @AfterReturning</li>
+<li>异常通知 @AfterThrowing</li>
+<li>环绕通知 @Around</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>导入依赖</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.3.20<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- aop 依赖 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-aspects<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.3.20<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- lombok依赖 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.18.24<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.13.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>定义一个业务逻辑类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.math;<br><br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:26 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MathCalculator</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">div</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;MathCalculator.div&quot;</span>);<br>        <span class="hljs-keyword">return</span> i / j;<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>定义一个记录日志的切面类，加上通知注解</li>
+</ol>
+<ul>
+<li>@Aspect：声明当前类为切面类</li>
+<li>可以在通知方法的的参数中加上JoinPoint</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.aspect;<br><br><span class="hljs-keyword">import</span> org.aspectj.lang.JoinPoint;<br><span class="hljs-keyword">import</span> org.aspectj.lang.Signature;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.*;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:28 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Aspect</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogAspects</span> &#123;<br><br>    <span class="hljs-meta">@Pointcut(&quot;execution(public int io.github.shgang.math.MathCalculator.*(..))&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pointCut</span><span class="hljs-params">()</span> &#123;<br><br><br>    &#125;<br><br>    <span class="hljs-meta">@Before(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logStart</span><span class="hljs-params">(JoinPoint joinPoint)</span> &#123;<br>        Object[] args = joinPoint.getArgs();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">arguments</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">for</span> (Object arg : args) &#123;<br>            arguments += (arg + <span class="hljs-string">&quot;\t&quot;</span>);<br>        &#125;<br>        System.out.printf(<span class="hljs-string">&quot;方法运行开始，参数列表是：&#123;%s&#125;\n&quot;</span>, arguments);<br>    &#125;<br><br>    <span class="hljs-meta">@After(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logEnd</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法运行结束&quot;</span>);<br>    &#125;<br><br><br>    <span class="hljs-meta">@AfterReturning(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logReturn</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法正常返回，运行结果是：&#123;&#125;&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@AfterThrowing(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logException</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法出现异常&quot;</span>);<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建一个配置类</li>
+</ol>
+<ul>
+<li>@EnableAspectJAutoProxy：开启基于注解的aop</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.config;<br><br><span class="hljs-keyword">import</span> org.springframework.context.annotation.ComponentScan;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.EnableAspectJAutoProxy;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:08 上午</span><br><span class="hljs-comment"> */</span><br><br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ComponentScan(value = &#123;&quot;io.github.shgang.math&quot;, &quot;io.github.shgang.aspect&quot;&#125;)</span><br><span class="hljs-meta">@EnableAspectJAutoProxy</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AopConfig</span> &#123;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>运行查看结果</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.test;<br><br><span class="hljs-keyword">import</span> io.github.shgang.config.AopConfig;<br><span class="hljs-keyword">import</span> io.github.shgang.math.MathCalculator;<br><span class="hljs-keyword">import</span> org.junit.Test;<br><span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:56 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test01</span> &#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test01</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotationConfigApplicationContext</span>(AopConfig.class);<br>        <span class="hljs-type">MathCalculator</span> <span class="hljs-variable">mathCalculator</span> <span class="hljs-operator">=</span> context.getBean(MathCalculator.class);<br>        System.out.println(mathCalculator.div(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>));<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">方法运行开始，参数列表是：&#123;10	5	&#125;<br>MathCalculator.div<br>方法正常返回，运行结果是：&#123;&#125;<br>方法运行结束<br>2<br></code></pre></td></tr></table></figure>
+
 
               
             </div>
@@ -439,6 +410,23 @@
 <span class="category-chains">
   
   
+    
+      <span class="category-chain">
+        
+  <a href="/categories/spring/" class="category-chain-item">spring</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/spring/aop/" class="category-chain-item">aop</a>
+  
+  
+
+  
+
+      </span>
+    
+  
 </span>
 
     </div>
@@ -447,13 +435,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Java/">#Java</a>
+        <a href="/tags/spring/">#spring</a>
       
-        <a href="/tags/Spark/">#Spark</a>
-      
-        <a href="/tags/%E3%80%8ASpark-%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E3%80%8B/">#《Spark 官方文档》</a>
-      
-        <a href="/tags/Spark-RDD-Programming-Guide/">#Spark-RDD-Programming-Guide</a>
+        <a href="/tags/note/">#note</a>
       
     </div>
   
@@ -465,8 +449,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>《Spark官方文档》——RDD编程指南</div>
-      <div>https://shgang97.github.io/posts/spark-rdd-programming-guide-e933e875d63d/</div>
+      <div>spring-annotation-aop</div>
+      <div>https://shgang97.github.io/posts/spring-annotation-aop-a154da16f5a8/</div>
     </div>
     <div class="license-meta">
       
@@ -478,7 +462,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月25日</div>
+          <div>2022年5月27日</div>
         </div>
       
       
@@ -508,6 +492,23 @@
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/graph-minimum-spanning-tree-c75337d77627/" title="graph-minimum-spanning-tree">
+                        <span class="hidden-mobile">graph-minimum-spanning-tree</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
