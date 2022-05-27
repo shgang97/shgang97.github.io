@@ -18,23 +18,21 @@
   
     <meta name="description" content="摘要：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spring注解开发4——AOP">
-<meta property="og:url" content="https://shgang97.github.io/posts/spring-annotation-aop-a154da16f5a8/index.html">
+<meta property="og:title" content="aqs">
+<meta property="og:url" content="https://shgang97.github.io/posts/aqs-84d60b8099bc/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
 <meta property="og:description" content="摘要：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/spring/springaop.jpg">
-<meta property="article:published_time" content="2022-05-26T17:09:44.000Z">
-<meta property="article:modified_time" content="2022-05-27T19:51:09.700Z">
+<meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
+<meta property="article:published_time" content="2022-05-27T18:47:44.000Z">
+<meta property="article:modified_time" content="2022-05-27T19:50:55.593Z">
 <meta property="article:author" content="shgang">
-<meta property="article:tag" content="spring">
-<meta property="article:tag" content="note">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/shgang97/oss/main/posts/spring/springaop.jpg">
+<meta name="twitter:image" content="https://shgang97.github.io/img/default_index.png">
   
   
   
-  <title>spring注解开发4——AOP - Shgang&#39;s Blog</title>
+  <title>aqs - Shgang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -249,7 +247,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="spring注解开发4——AOP"></span>
+            <span id="subtitle" data-typed-text="aqs"></span>
           
         </div>
 
@@ -265,8 +263,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-27 01:09" pubdate>
-          2022年5月27日 凌晨
+        <time datetime="2022-05-28 02:47" pubdate>
+          2022年5月28日 凌晨
         </time>
       </span>
     
@@ -277,7 +275,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          641 字
         
       </span>
     
@@ -288,7 +286,7 @@
         
         
         
-          31 分钟
+          6 分钟
         
       </span>
     
@@ -334,7 +332,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">spring注解开发4——AOP</h1>
+            <h1 style="display: none">aqs</h1>
             
               <p class="note note-info">
                 
@@ -349,52 +347,9 @@
               <p><strong>摘要</strong>：</p>
 <span id="more"></span>
 
-<h1>AOP 功能测试</h1>
+<h1>AQS 简介及使用</h1>
 
-<p>AOP：【动态代理】——指在程序运行期间动态地将某段代码切入到指定方法指定位置运行的编程方式</p>
-<ul>
-<li>通知方法：<ul>
-<li>前置通知 @Before</li>
-<li>后置通知 @After</li>
-<li>返回通知 @AfterReturning</li>
-<li>异常通知 @AfterThrowing</li>
-<li>环绕通知 @Around</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>导入依赖</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.3.20<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- aop 依赖 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-aspects<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.3.20<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- lombok依赖 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.18.24<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.13.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>compile<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>定义一个业务逻辑类</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.math;<br><br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:26 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MathCalculator</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">div</span><span class="hljs-params">(<span class="hljs-type">int</span> i, <span class="hljs-type">int</span> j)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;MathCalculator.div&quot;</span>);<br>        <span class="hljs-keyword">return</span> i / j;<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>定义一个记录日志的切面类，加上通知注解</li>
-</ol>
-<ul>
-<li>@Aspect：声明当前类为切面类</li>
-<li>可以在通知方法的的参数中加上JoinPoint</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.aspect;<br><br><span class="hljs-keyword">import</span> org.aspectj.lang.JoinPoint;<br><span class="hljs-keyword">import</span> org.aspectj.lang.Signature;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.*;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:28 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Aspect</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LogAspects</span> &#123;<br><br>    <span class="hljs-meta">@Pointcut(&quot;execution(public int io.github.shgang.math.MathCalculator.*(..))&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pointCut</span><span class="hljs-params">()</span> &#123;<br><br><br>    &#125;<br><br>    <span class="hljs-meta">@Before(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logStart</span><span class="hljs-params">(JoinPoint joinPoint)</span> &#123;<br>        Object[] args = joinPoint.getArgs();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">arguments</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">for</span> (Object arg : args) &#123;<br>            arguments += (arg + <span class="hljs-string">&quot;\t&quot;</span>);<br>        &#125;<br>        System.out.printf(<span class="hljs-string">&quot;方法运行开始，参数列表是：&#123;%s&#125;\n&quot;</span>, arguments);<br>    &#125;<br><br>    <span class="hljs-meta">@After(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logEnd</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法运行结束&quot;</span>);<br>    &#125;<br><br><br>    <span class="hljs-meta">@AfterReturning(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logReturn</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法正常返回，运行结果是：&#123;&#125;&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@AfterThrowing(&quot;pointCut()&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">logException</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法出现异常&quot;</span>);<br>    &#125;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>创建一个配置类</li>
-</ol>
-<ul>
-<li>@EnableAspectJAutoProxy：开启基于注解的aop</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.config;<br><br><span class="hljs-keyword">import</span> org.springframework.context.annotation.ComponentScan;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.EnableAspectJAutoProxy;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:08 上午</span><br><span class="hljs-comment"> */</span><br><br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ComponentScan(value = &#123;&quot;io.github.shgang.math&quot;, &quot;io.github.shgang.aspect&quot;&#125;)</span><br><span class="hljs-meta">@EnableAspectJAutoProxy</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AopConfig</span> &#123;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>运行查看结果</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> io.github.shgang.test;<br><br><span class="hljs-keyword">import</span> io.github.shgang.config.AopConfig;<br><span class="hljs-keyword">import</span> io.github.shgang.math.MathCalculator;<br><span class="hljs-keyword">import</span> org.junit.Test;<br><span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: shg</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@create</span>: 2022-05-27 1:56 上午</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test01</span> &#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test01</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotationConfigApplicationContext</span>(AopConfig.class);<br>        <span class="hljs-type">MathCalculator</span> <span class="hljs-variable">mathCalculator</span> <span class="hljs-operator">=</span> context.getBean(MathCalculator.class);<br>        System.out.println(mathCalculator.div(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>));<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">方法运行开始，参数列表是：&#123;10	5	&#125;<br>MathCalculator.div<br>方法正常返回，运行结果是：&#123;&#125;<br>方法运行结束<br>2<br></code></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">Provides a framework for implementing blocking locks and related synchronizers (semaphores, events, etc) that rely on first-in-first-out (FIFO) wait queues. This class is designed to be a useful basis for most kinds of synchronizers that rely on a single atomic int value to represent state. Subclasses must define the protected methods that change this state, and which define what that state means in terms of this object being acquired or released. Given these, the other methods in this class carry out all queuing and blocking mechanics. Subclasses can maintain other state fields, but only the atomically updated int value manipulated using methods getState, setState and compareAndSetState is tracked with respect to synchronization.<br></code></pre></td></tr></table></figure>
 
 
               
@@ -403,43 +358,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/spring/" class="category-chain-item">spring</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/spring/aop/" class="category-chain-item">aop</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/spring/">#spring</a>
-      
-        <a href="/tags/note/">#note</a>
-      
-    </div>
   
 </div>
 
@@ -449,8 +367,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>spring注解开发4——AOP</div>
-      <div>https://shgang97.github.io/posts/spring-annotation-aop-a154da16f5a8/</div>
+      <div>aqs</div>
+      <div>https://shgang97.github.io/posts/aqs-84d60b8099bc/</div>
     </div>
     <div class="license-meta">
       
@@ -462,7 +380,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月27日</div>
+          <div>2022年5月28日</div>
         </div>
       
       
@@ -492,23 +410,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/posts/graph-minimum-spanning-tree-c75337d77627/" title="graph-最小生成树">
-                        <span class="hidden-mobile">graph-最小生成树</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 

@@ -18,14 +18,14 @@
   
     <meta name="description" content="摘要：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="graph-minimum-spanning-tree">
+<meta property="og:title" content="graph-最小生成树">
 <meta property="og:url" content="https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/index.html">
 <meta property="og:site_name" content="Shgang&#39;s Blog">
 <meta property="og:description" content="摘要：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://shgang97.github.io/img/default_index.png">
 <meta property="article:published_time" content="2022-05-20T10:00:56.000Z">
-<meta property="article:modified_time" content="2022-05-20T10:16:38.118Z">
+<meta property="article:modified_time" content="2022-05-27T19:51:05.213Z">
 <meta property="article:author" content="shgang">
 <meta property="article:tag" content="数据结构">
 <meta property="article:tag" content="图">
@@ -36,7 +36,7 @@
   
   
   
-  <title>graph-minimum-spanning-tree - Shgang&#39;s Blog</title>
+  <title>graph-最小生成树 - Shgang&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -251,7 +251,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="graph-minimum-spanning-tree"></span>
+            <span id="subtitle" data-typed-text="graph-最小生成树"></span>
           
         </div>
 
@@ -279,7 +279,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          100 字
+          179 字
         
       </span>
     
@@ -290,7 +290,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -336,12 +336,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">graph-minimum-spanning-tree</h1>
+            <h1 style="display: none">graph-最小生成树</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2022年5月20日 晚上
+                    本文最后更新于：2022年5月28日 凌晨
                   
                 
               </p>
@@ -356,7 +356,13 @@
 <li>包含图中全部的n个顶点，边的条数为n-1</li>
 <li>所欲生成树中总权值最下</li>
 </ul>
-<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3><h4 id="切分定理"><a href="#切分定理" class="headerlink" title="切分定理"></a>切分定理</h4><p>切分（Cut）：把图中的节点分为两部分，称为一个切分</p>
+<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3><h4 id="切分定理"><a href="#切分定理" class="headerlink" title="切分定理"></a>切分定理</h4><ul>
+<li><p>切分（Cut）：把图中的节点分为两部分，称为一个切分</p>
+</li>
+<li><p>横切变（Crossing Edge）：如果一个边的两个顶点，分别属于切分的两部分，这个边称为横切边</p>
+</li>
+</ul>
+<p><strong>切分定理：</strong>给定任意切分，横切边中权值最小的边必然属于最小生成树</p>
 
               
             </div>
@@ -431,7 +437,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>graph-minimum-spanning-tree</div>
+      <div>graph-最小生成树</div>
       <div>https://shgang97.github.io/posts/graph-minimum-spanning-tree-c75337d77627/</div>
     </div>
     <div class="license-meta">
@@ -450,7 +456,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年5月20日</div>
+          <div>2022年5月28日</div>
         </div>
       
       <div class="license-meta-item">
@@ -479,9 +485,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/spring-annotation-aop-a154da16f5a8/" title="spring-annotation-aop">
+                      <a href="/posts/spring-annotation-aop-a154da16f5a8/" title="spring注解开发4——AOP">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">spring-annotation-aop</span>
+                        <span class="hidden-mobile">spring注解开发4——AOP</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
